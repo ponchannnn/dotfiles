@@ -1,0 +1,20 @@
+# Bare-repo dotfiles: ignore everything by default,
+# then explicitly allow-list what's tracked.
+/*
+
+# --- top-level dotfiles ---
+!/.gitignore
+!/.zshrc
+!/.gitconfig
+!/.vimrc
+
+# --- bootstrap tooling (lives at repo root == $HOME) ---
+!/bootstrap.sh
+!/export-packages.sh
+!/README.md
+!/packages/
+
+# --- .config: only allow nvim, ignore everything else inside ---
+!/.config
+/.config/*
+!/.config/nvim
