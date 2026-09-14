@@ -30,13 +30,13 @@ install_packages() {
     log "Installing base packages for $os..."
     if [ "$os" = "linux" ]; then
         sudo apt update
-        sudo apt install -y zsh vim tmux git curl
+        sudo apt install -y zsh vim tmux git curl fzf bat jq nano tree direnv unzip
     elif [ "$os" = "mac" ]; then
         if ! command -v brew >/dev/null 2>&1; then
             log "Homebrew not found, installing..."
             /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
         fi
-        brew install zsh vim tmux git
+        brew install zsh vim tmux git fzf bat jq nano tree direnv unzip
     fi
 }
 

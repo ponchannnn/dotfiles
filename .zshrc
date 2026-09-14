@@ -122,3 +122,10 @@ export NVM_DIR="$HOME/.nvm"
 
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 alias dotfiles='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
+
+# fzf: キーバインド(Ctrl+R等)と補完を有効化
+[ -f "$(brew --prefix)/opt/fzf/shell/key-bindings.zsh" ] && source "$(brew --prefix)/opt/fzf/shell/key-bindings.zsh"
+[ -f "$(brew --prefix)/opt/fzf/shell/completion.zsh" ] && source "$(brew --prefix)/opt/fzf/shell/completion.zsh"
+
+# direnv: ディレクトリごとの環境変数自動切替
+command -v direnv >/dev/null && eval "$(direnv hook zsh)"

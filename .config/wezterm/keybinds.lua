@@ -1,17 +1,22 @@
 local wezterm = require("wezterm")
 local act = wezterm.action
 
--- Show which key table is active in the status area
-wezterm.on("update-right-status", function(window, pane)
-  local name = window:active_key_table()
-  if name then
-    name = "TABLE: " .. name
-  end
-  window:set_right_status(name or "")
-end)
+-- アクティブなキーテーブル名の表示は wezterm.lua 側の update-right-status に統合済み
+
+-- tmux prefix (Ctrl+A, ~/.config/tmux/tmux.conf の prefix と合わせている) を
+-- 続けて送ることで、tmuxコマンドをWezTermのショートカット1発で呼び出す
+-- https://github.com/ogadra/dotfiles/blob/main/home-manager/common/apps/terminal/wezterm/keybinds.nix
+local function tmux(cmd)
+  return act.SendString("\x01" .. cmd)
+end
 
 return {
   keys = {
+    -- tmux連携 (Cmd+T/Cmd+Wは既存のネイティブタブ操作と衝突するため Cmd+Shift+T/W を使用)
+    { key = "T", mods = "SUPER|SHIFT", action = tmux("c") }, -- tmux 新規ウィンドウ
+    { key = "W", mods = "SUPER|SHIFT", action = tmux("w") }, -- tmux ウィンドウ一覧
+    { key = "d", mods = "SUPER", action = tmux("%") }, -- tmux ペイン分割(縦)
+    { key = "x", mods = "CTRL", action = tmux("[") }, -- tmux コピーモード
     {
       -- workspaceの切り替え
       key = "w",
@@ -189,6 +194,20 @@ return {
       { key = "Escape", mods = "NONE", action = act.CopyMode("Close") },
       { key = "c", mods = "CTRL", action = act.CopyMode("Close") },
       { key = "q", mods = "NONE", action = act.CopyMode("Close") },
+    },
+  },
+  -- Ctrl+クリックでリンクを開く (tmuxのマウスレポート中でも効くよう両対応)
+  mouse_bindings = {
+    {
+      event = { Up = { streak = 1, button = "Left" } },
+      mods = "CTRL",
+      action = act.OpenLinkAtMouseCursor,
+    },
+    {
+      event = { Up = { streak = 1, button = "Left" } },
+      mods = "CTRL",
+      mouse_reporting = true,
+      action = act.OpenLinkAtMouseCursor,
     },
   },
 }
