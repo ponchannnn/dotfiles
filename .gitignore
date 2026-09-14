@@ -14,7 +14,8 @@
 !/README.md
 !/packages/
 
-# --- .config: only allow nvim, ignore everything else inside ---
+# --- .config: allow-list specific tools only ---
 !/.config
 /.config/*
 !/.config/nvim
+!/.config/wezterm
