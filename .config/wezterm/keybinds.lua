@@ -3,11 +3,11 @@ local act = wezterm.action
 
 -- アクティブなキーテーブル名の表示は wezterm.lua 側の update-right-status に統合済み
 
--- tmux prefix (Ctrl+A, ~/.config/tmux/tmux.conf の prefix と合わせている) を
+-- tmux prefix (Ctrl+Q, ~/.config/tmux/tmux.conf の prefix と合わせている) を
 -- 続けて送ることで、tmuxコマンドをWezTermのショートカット1発で呼び出す
 -- https://github.com/ogadra/dotfiles/blob/main/home-manager/common/apps/terminal/wezterm/keybinds.nix
 local function tmux(cmd)
-  return act.SendString("\x01" .. cmd)
+  return act.SendString("\x11" .. cmd)
 end
 
 return {

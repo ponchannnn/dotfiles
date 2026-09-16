@@ -114,7 +114,7 @@ source $ZSH/oh-my-zsh.sh
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
 # Added by Antigravity IDE
-export PATH="/Users/mizuki/.antigravity-ide/antigravity-ide/bin:$PATH"
+export PATH="$HOME/.antigravity-ide/antigravity-ide/bin:$PATH"
 alias anti='antigravity-ide'
 
 export NVM_DIR="$HOME/.nvm"
@@ -129,3 +129,22 @@ alias dotfiles='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 
 # direnv: ディレクトリごとの環境変数自動切替
 command -v direnv >/dev/null && eval "$(direnv hook zsh)"
+
+# ogadra/dotfiles(fish設定)からzshに移植したもの
+# rm を gomi(ゴミ箱コマンド)に置き換え
+alias rm='gomi'
+# claude の略語
+alias cl='claude'
+
+# ghq list を fzf で絞り込んで cd する。Ctrl+G で起動
+ghq-fzf() {
+  local repo
+  repo=$(ghq list | fzf --preview "bat --color=always --style=plain \$(ghq root)/{}/README.md 2>/dev/null || ls \$(ghq root)/{}")
+  if [ -n "$repo" ]; then
+    BUFFER="cd $(ghq root)/$repo"
+    zle accept-line
+  fi
+  zle reset-prompt
+}
+zle -N ghq-fzf
+bindkey '^G' ghq-fzf

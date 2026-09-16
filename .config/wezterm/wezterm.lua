@@ -17,6 +17,11 @@ config.font = wezterm.font_with_fallback({
 config.font_size = 12.0
 config.use_ime = true
 
+-- カーソルの点滅アニメーション。ogadra/dotfilesのcolor.nixを踏襲
+config.default_cursor_style = "BlinkingBlock"
+config.cursor_blink_rate = 500
+config.cursor_thickness = 2
+
 ----------------------------------------------------
 -- Colors (ogadra/dotfiles の NERV HUD 風オレンジパレットを移植)
 -- https://github.com/ogadra/dotfiles/blob/main/home-manager/common/apps/terminal/wezterm/color.nix
@@ -370,7 +375,8 @@ local keybinds = require("keybinds")
 config.keys = keybinds.keys
 config.key_tables = keybinds.key_tables
 config.mouse_bindings = keybinds.mouse_bindings
-config.leader = { key = "q", mods = "CTRL", timeout_milliseconds = 2000 }
+-- tmux prefixをC-qに統一したため、WezTerm自体のLeaderは空いたC-aに移動(C-qのままだと衝突する)
+config.leader = { key = "a", mods = "CTRL", timeout_milliseconds = 2000 }
 
 return config
 

@@ -3,3 +3,5 @@
 	name = ponCHANNN
 [init]
 	defaultBranch = develop
+[ghq]
+	root = ~/codes

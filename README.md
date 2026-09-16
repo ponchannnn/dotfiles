@@ -54,8 +54,12 @@ dotfiles push
 - `.gitconfig`
 - `.vimrc`
 - `CLAUDE.md`
+- `.githooks/`(pre-commitでgitleaksによるシークレットスキャンを実行。`core.hooksPath`で有効化)
 - `.config/wezterm/`
+- `.config/tmux/`
 - `.config/nvim/`(現状未使用、許可枠のみ)
+- `.claude/`(`settings.json`, `CLAUDE.md`, `statusline-command.sh`, `themes/nerv.json`のみ。
+  会話履歴・セッション・キャッシュ等は`.gitignore`で除外)
 
 対象は今後相談の上で追加・削除する。`dotfiles-research/` はローカルの調査・検討メモ置き場で、
 `.gitignore` で明示的に除外しており、このリポジトリにはアップロードしない。

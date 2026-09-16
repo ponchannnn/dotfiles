@@ -1,0 +1,18 @@
+{
+  "theme": "custom:nerv",
+  "language": "Japanese",
+  "voiceEnabled": true,
+  "voice": {
+    "mode": "hold"
+  },
+  "statusLine": {
+    "type": "command",
+    "command": "bash ~/.claude/statusline-command.sh"
+  },
+  "autoCompactEnabled": true,
+  "fileCheckpointingEnabled": true,
+  "askUserQuestionTimeout": "never",
+  "attribution": {
+    "commit": ""
+  }
+}

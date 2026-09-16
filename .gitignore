@@ -8,6 +8,7 @@
 !/.gitconfig
 !/.vimrc
 !/CLAUDE.md
+!/.githooks/
 
 # --- bootstrap tooling (lives at repo root == $HOME) ---
 !/bootstrap.sh
@@ -20,5 +21,16 @@
 /.config/*
 !/.config/nvim
 !/.config/wezterm
+!/.config/tmux
+
+# --- .claude: only the config bits, never sessions/history/cache/secrets ---
+!/.claude
+/.claude/*
+!/.claude/settings.json
+!/.claude/CLAUDE.md
+!/.claude/statusline-command.sh
+!/.claude/themes
+/.claude/themes/*
+!/.claude/themes/nerv.json
 
 # dotfiles-research/ is local planning notes only, never pushed (see README)

@@ -31,12 +31,18 @@ install_packages() {
     if [ "$os" = "linux" ]; then
         sudo apt update
         sudo apt install -y zsh vim tmux git curl fzf bat jq nano tree direnv unzip
+        # ghq/gitleaks/gomi/hunk/ccusage は Ubuntu の標準apt repoには無いため未対応
+        # (Goツールなので `go install` 等が必要。要検討)
     elif [ "$os" = "mac" ]; then
         if ! command -v brew >/dev/null 2>&1; then
             log "Homebrew not found, installing..."
             /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
         fi
-        brew install zsh vim tmux git fzf bat jq nano tree direnv unzip
+        brew install zsh vim tmux git fzf bat jq nano tree direnv unzip ghq gitleaks gomi hunk ccusage
+        brew install --cask google-chrome raycast font-code-new-roman-nerd-font
+        # karabiner-elementsはインストーラがsudoパスワードを対話入力で要求するため、
+        # 無人実行のこの関数からは除外。必要なら手動で:
+        #   brew install --cask karabiner-elements
     fi
 }
 
@@ -84,6 +90,8 @@ do_checkout() {
         log "Checkout succeeded after backing up conflicts to $BACKUP_DIR."
     fi
     dotfiles config --local status.showUntrackedFiles no
+    dotfiles config --local core.hooksPath .githooks
+    chmod +x "$HOME/.githooks/"* 2>/dev/null || true
 }
 
 set_default_shell_to_zsh() {
