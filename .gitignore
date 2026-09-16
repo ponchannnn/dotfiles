@@ -7,6 +7,7 @@
 !/.zshrc
 !/.gitconfig
 !/.vimrc
+!/CLAUDE.md
 
 # --- bootstrap tooling (lives at repo root == $HOME) ---
 !/bootstrap.sh
@@ -20,9 +21,4 @@
 !/.config/nvim
 !/.config/wezterm
 
-# --- dotfiles-research: local planning notes, only push what's finalized ---
-!/dotfiles-research
-/dotfiles-research/*
-!/dotfiles-research/unused-apps.md
-!/dotfiles-research/essential-cli-configs.md
-!/dotfiles-research/decisions.md
+# dotfiles-research/ is local planning notes only, never pushed (see README)

@@ -53,9 +53,12 @@ dotfiles push
 - `.zshrc`
 - `.gitconfig`
 - `.vimrc`
-- `.config/nvim/`
+- `CLAUDE.md`
+- `.config/wezterm/`
+- `.config/nvim/`(現状未使用、許可枠のみ)
 
-対象は今後相談の上で追加・削除する。
+対象は今後相談の上で追加・削除する。`dotfiles-research/` はローカルの調査・検討メモ置き場で、
+`.gitignore` で明示的に除外しており、このリポジトリにはアップロードしない。
 
 ## 注意
 
