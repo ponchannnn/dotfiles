@@ -10,6 +10,30 @@ local function tmux(cmd)
   return act.SendString("\x11" .. cmd)
 end
 
+-- zellij対応: フォアグラウンドプロセスがzellijなら、Leader(Ctrl+S)に続くキーを
+-- そのままzellijへ送り、zellij側のpaneモード(Ctrl+s起点)に処理させる。
+-- zellijが起動していない(または判定できない)場合は、常にWezTermネイティブの
+-- 動作にフォールバックするのでバグらない。
+local function is_zellij(pane)
+  local ok, proc = pcall(function()
+    return pane:get_foreground_process_name()
+  end)
+  if not ok or not proc then
+    return false
+  end
+  return proc:find("zellij", 1, true) ~= nil
+end
+
+local function leader_or_zellij(zellij_key, native_action)
+  return wezterm.action_callback(function(window, pane)
+    if is_zellij(pane) then
+      pane:send_text("\x13" .. zellij_key) -- \x13 = Ctrl+S
+    else
+      window:perform_action(native_action, pane)
+    end
+  end)
+end
+
 return {
   keys = {
     -- tmux連携 (Cmd+T/Cmd+Wは既存のネイティブタブ操作と衝突するため Cmd+Shift+T/W を使用)
@@ -18,10 +42,13 @@ return {
     { key = "d", mods = "SUPER", action = tmux("%") }, -- tmux ペイン分割(縦)
     { key = "x", mods = "CTRL", action = tmux("[") }, -- tmux コピーモード
     {
-      -- workspaceの切り替え
+      -- workspaceの切り替え (zellij使用時はzellijのsession-managerへ転送)
       key = "w",
       mods = "LEADER",
-      action = act.ShowLauncherArgs({ flags = "WORKSPACES", title = "Select workspace" }),
+      action = leader_or_zellij(
+        "w",
+        act.ShowLauncherArgs({ flags = "WORKSPACES", title = "Select workspace" })
+      ),
     },
     {
       --workspaceの名前変更
@@ -69,28 +96,28 @@ return {
     -- 画面フルスクリーン切り替え
     { key = "Enter", mods = "ALT", action = act.ToggleFullScreen },
 
-    -- コピーモード
+    -- コピーモード (zellij使用時はzellijのscrollモードへ転送)
     -- { key = 'X', mods = 'LEADER', action = act.ActivateKeyTable{ name = 'copy_mode', one_shot =false }, },
-    { key = "[", mods = "LEADER", action = act.ActivateCopyMode },
+    { key = "[", mods = "LEADER", action = leader_or_zellij("[", act.ActivateCopyMode) },
     -- コピー
     { key = "c", mods = "SUPER", action = act.CopyTo("Clipboard") },
     -- 貼り付け
     { key = "v", mods = "SUPER", action = act.PasteFrom("Clipboard") },
 
-    -- Pane作成 leader + r or d
-    { key = "d", mods = "LEADER", action = act.SplitVertical({ domain = "CurrentPaneDomain" }) },
-    { key = "r", mods = "LEADER", action = act.SplitHorizontal({ domain = "CurrentPaneDomain" }) },
+    -- Pane作成 leader + r or d (zellij使用時はzellijのpaneモードへ転送)
+    { key = "d", mods = "LEADER", action = leader_or_zellij("d", act.SplitVertical({ domain = "CurrentPaneDomain" })) },
+    { key = "r", mods = "LEADER", action = leader_or_zellij("r", act.SplitHorizontal({ domain = "CurrentPaneDomain" })) },
     -- Paneを閉じる leader + x
-    { key = "x", mods = "LEADER", action = act({ CloseCurrentPane = { confirm = true } }) },
+    { key = "x", mods = "LEADER", action = leader_or_zellij("x", act({ CloseCurrentPane = { confirm = true } })) },
     -- Pane移動 leader + hlkj
-    { key = "h", mods = "LEADER", action = act.ActivatePaneDirection("Left") },
-    { key = "l", mods = "LEADER", action = act.ActivatePaneDirection("Right") },
-    { key = "k", mods = "LEADER", action = act.ActivatePaneDirection("Up") },
-    { key = "j", mods = "LEADER", action = act.ActivatePaneDirection("Down") },
+    { key = "h", mods = "LEADER", action = leader_or_zellij("h", act.ActivatePaneDirection("Left")) },
+    { key = "l", mods = "LEADER", action = leader_or_zellij("l", act.ActivatePaneDirection("Right")) },
+    { key = "k", mods = "LEADER", action = leader_or_zellij("k", act.ActivatePaneDirection("Up")) },
+    { key = "j", mods = "LEADER", action = leader_or_zellij("j", act.ActivatePaneDirection("Down")) },
     -- Pane選択
     { key = "[", mods = "CTRL|SHIFT", action = act.PaneSelect },
     -- 選択中のPaneのみ表示
-    { key = "z", mods = "LEADER", action = act.TogglePaneZoomState },
+    { key = "z", mods = "LEADER", action = leader_or_zellij("z", act.TogglePaneZoomState) },
 
     -- フォントサイズ切替
     { key = "+", mods = "CTRL", action = act.IncreaseFontSize },
@@ -113,8 +140,12 @@ return {
     { key = "p", mods = "SHIFT|CTRL", action = act.ActivateCommandPalette },
     -- 設定再読み込み
     { key = "r", mods = "SHIFT|CTRL", action = act.ReloadConfiguration },
-    -- キーテーブル用
-    { key = "s", mods = "LEADER", action = act.ActivateKeyTable({ name = "resize_pane", one_shot = false }) },
+    -- キーテーブル用 (zellij使用時はzellijのresizeモードへ転送)
+    {
+      key = "s",
+      mods = "LEADER",
+      action = leader_or_zellij("s", act.ActivateKeyTable({ name = "resize_pane", one_shot = false })),
+    },
     {
       key = "a",
       mods = "LEADER",

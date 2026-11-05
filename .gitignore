@@ -22,6 +22,9 @@
 !/.config/nvim
 !/.config/wezterm
 !/.config/tmux
+!/.config/zellij
+/.config/zellij/*
+!/.config/zellij/config.kdl
 
 # --- .claude: only the config bits, never sessions/history/cache/secrets ---
 !/.claude

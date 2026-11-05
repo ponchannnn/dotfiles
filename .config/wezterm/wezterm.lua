@@ -375,8 +375,8 @@ local keybinds = require("keybinds")
 config.keys = keybinds.keys
 config.key_tables = keybinds.key_tables
 config.mouse_bindings = keybinds.mouse_bindings
--- tmux prefixをC-qに統一したため、WezTerm自体のLeaderは空いたC-aに移動(C-qのままだと衝突する)
-config.leader = { key = "a", mods = "CTRL", timeout_milliseconds = 2000 }
+-- WezTerm自体のLeaderはC-s (tmux prefixのC-qやemacs系readlineのC-a/C-wと衝突しないキーを選択)
+config.leader = { key = "s", mods = "CTRL", timeout_milliseconds = 2000 }
 
 return config
 
