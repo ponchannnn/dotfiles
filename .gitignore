@@ -9,6 +9,8 @@
 !/.vimrc
 !/CLAUDE.md
 !/.githooks/
+!/.zprofile
+!/.zshenv
 
 # --- bootstrap tooling (lives at repo root == $HOME) ---
 !/bootstrap.sh
@@ -35,5 +37,18 @@
 !/.claude/themes
 /.claude/themes/*
 !/.claude/themes/nerv.json
+
+# --- VSCode: user settings only, never workspaceStorage/extensions/sync/etc ---
+!/Library
+/Library/*
+!/Library/Application Support
+/Library/Application Support/*
+!/Library/Application Support/Code
+/Library/Application Support/Code/*
+!/Library/Application Support/Code/User
+/Library/Application Support/Code/User/*
+!/Library/Application Support/Code/User/settings.json
+!/Library/Application Support/Code/User/keybindings.json
+!/Library/Application Support/Code/User/snippets
 
 # dotfiles-research/ is local planning notes only, never pushed (see README)
