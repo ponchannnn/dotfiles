@@ -16,8 +16,11 @@ case "$(uname -s)" in
             echo "Homebrew not found." >&2
             exit 1
         fi
+        # 注意: packages/Brewfile は最小構成を手動管理する方針になっている。
+        # このまま実行すると今installされている全パッケージで上書きされ、
+        # 最小構成の意図が壊れるので、出力を必ずレビューしてから `dotfiles add` すること。
         brew bundle dump --force --file="$PACKAGES_DIR/Brewfile"
-        echo "Wrote $PACKAGES_DIR/Brewfile"
+        echo "Wrote $PACKAGES_DIR/Brewfile (review the diff before committing - see comment above)"
         ;;
     *)
         echo "Unsupported OS: $(uname -s)" >&2

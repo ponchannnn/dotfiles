@@ -1,0 +1,31 @@
+# Homebrew本体はbootstrap.shが別途インストールする。
+# ここには以前bootstrap.shにハードコードされていた最小構成だけを手動管理している。
+#
+# 増やしたい時は `brew install <pkg>` してから、ここに1行手で追記すること。
+# `export-packages.sh` (brew bundle dump) はMacでは使わないこと
+# (今このマシンに入っている全パッケージをそのままdumpしてしまい、
+#  この最小構成の意図が壊れるため)。
+
+brew "zsh"
+brew "vim"
+brew "tmux"
+brew "git"
+brew "fzf"
+brew "bat"
+brew "jq"
+brew "nano"
+brew "tree"
+brew "direnv"
+brew "unzip"
+brew "ghq"
+brew "gitleaks"
+brew "gomi"
+brew "hunk"
+brew "ccusage"
+
+cask "google-chrome"
+cask "raycast"
+cask "font-code-new-roman-nerd-font"
+
+# karabiner-elementsはインストーラが対話的にsudoパスワードを要求するため、
+# ここには入れていない。必要なら手動で `brew install --cask karabiner-elements` する

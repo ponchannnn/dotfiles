@@ -38,11 +38,8 @@ install_packages() {
             log "Homebrew not found, installing..."
             /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
         fi
-        brew install zsh vim tmux git fzf bat jq nano tree direnv unzip ghq gitleaks gomi hunk ccusage
-        brew install --cask google-chrome raycast font-code-new-roman-nerd-font
-        # karabiner-elementsはインストーラがsudoパスワードを対話入力で要求するため、
-        # 無人実行のこの関数からは除外。必要なら手動で:
-        #   brew install --cask karabiner-elements
+        # 個別パッケージは packages/Brewfile で管理し、
+        # dotfilesをcheckoutした後の install_from_package_list() でまとめて入れる
     fi
 }
 
