@@ -15,6 +15,7 @@
 # --- bootstrap tooling (lives at repo root == $HOME) ---
 !/bootstrap.sh
 !/export-packages.sh
+!/macos-defaults.sh
 !/README.md
 !/packages/
 

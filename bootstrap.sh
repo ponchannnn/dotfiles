@@ -125,6 +125,13 @@ install_from_package_list() {
 
 main() {
     local os
+    local apply_macos_defaults=false
+    for arg in "$@"; do
+        case "$arg" in
+            --macos-defaults) apply_macos_defaults=true ;;
+        esac
+    done
+
     os="$(detect_os)"
     log "Detected OS: $os"
 
@@ -133,6 +140,15 @@ main() {
     do_checkout
     install_from_package_list "$os"
     set_default_shell_to_zsh
+
+    if [ "$os" = "mac" ]; then
+        if [ "$apply_macos_defaults" = true ]; then
+            log "Applying macOS keyboard/mouse/trackpad/cursor defaults..."
+            bash "$HOME/macos-defaults.sh"
+        else
+            log "Skipping macOS keyboard/mouse/trackpad/cursor defaults (pass --macos-defaults to apply them)."
+        fi
+    fi
 
     log "Done. Open a new shell (or 'exec zsh') to pick up the restored dotfiles."
 }

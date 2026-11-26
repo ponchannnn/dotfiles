@@ -18,6 +18,13 @@ curl -fsSL https://raw.githubusercontent.com/ponchannnn/dotfiles/main/bootstrap.
   (Mac は `packages/Brewfile` から全パッケージをこのステップで入れる。Linux は現状未整備)
 - デフォルトシェルを zsh に変更
 
+Macのキーボード/マウス/トラックパッド/カーソルの好み設定(`macos-defaults.sh`)も一緒に
+適用したい場合は `--macos-defaults` を付ける(デフォルトでは適用しない):
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/ponchannnn/dotfiles/main/bootstrap.sh | bash -s -- --macos-defaults
+```
+
 ## 管理方法
 
 `.zshrc` に以下のエイリアスを設定済み:
@@ -62,6 +69,10 @@ dotfiles push
   会話履歴・セッション・キャッシュ等は`.gitignore`で除外)
 - `Library/Application Support/Code/User/`(VSCodeの`settings.json`, `keybindings.json`, `snippets/`のみ。
   `workspaceStorage`/`extensions`/`sync`等の状態・キャッシュ・拡張機能本体は`.gitignore`で除外)
+- `macos-defaults.sh`(キーボード/マウス/トラックパッド/カーソル色/外観/Dock/Siri/Finderの
+  `defaults write`。bootstrap.shに`--macos-defaults`を付けた時だけMacで実行される。
+  通知/メニューバーアイコン/キーボードショートカット/入力ソースはバイナリ構造や配列が
+  複雑すぎるため対象外。ファイル内のコメント参照)
 
 対象は今後相談の上で追加・削除する。`dotfiles-research/` はローカルの調査・検討メモ置き場で、
 `.gitignore` で明示的に除外しており、このリポジトリにはアップロードしない。
